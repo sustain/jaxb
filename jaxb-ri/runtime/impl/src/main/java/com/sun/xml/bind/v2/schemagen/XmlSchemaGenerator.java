@@ -310,6 +310,10 @@ public final class XmlSchemaGenerator<T,C,F,M> {
 
         if (xmlElem == null) {
             nillable = false;
+            Namespace.ElementDeclaration prev = n.elementDecls.get(name.getLocalPart());
+            if (prev != null) {
+                nillable = ((Namespace.ElementWithType) prev).nillable;
+            }
         } else {
             nillable = xmlElem.nillable();
         }
@@ -378,6 +382,10 @@ public final class XmlSchemaGenerator<T,C,F,M> {
 
 
         Namespace n = getNamespace(tagName.getNamespaceURI());
+        Namespace.ElementDeclaration prev = n.elementDecls.get(tagName.getLocalPart());
+        if (prev != null) {
+            isNillable |= ((Namespace.ElementWithType) prev).nillable;
+        }
         n.elementDecls.put(tagName.getLocalPart(), n.new ElementWithType(isNillable,type));
 
         // search for foreign namespace references
@@ -1385,7 +1393,7 @@ public final class XmlSchemaGenerator<T,C,F,M> {
         }
 
         public void addGlobalElement(TypeRef<T,C> tref) {
-            elementDecls.put( tref.getTagName().getLocalPart(), new ElementWithType(false,tref.getTarget()) );
+            elementDecls.put( tref.getTagName().getLocalPart(), new ElementWithType(tref.isNillable(),tref.getTarget()) );
             addDependencyTo(tref.getTarget().getTypeName());
         }
 
