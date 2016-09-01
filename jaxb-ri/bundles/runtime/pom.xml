@@ -52,6 +52,7 @@ holder.
 
     <groupId>com.sun.xml.bind</groupId>
     <artifactId>jaxb-impl</artifactId>
+    <version>2.2.11-patch1</version>
 
     <packaging>jar</packaging>
     <name>Old JAXB Runtime</name>
@@ -61,6 +62,19 @@ holder.
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
+            <version>2.2.11</version>
+            <optional>true</optional>
+	    <exclusions>
+	      <exclusion>
+		<groupId>org.glassfish.jaxb</groupId>
+		<artifactId>jaxb-core</artifactId>
+	      </exclusion>
+	    </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.2.11</version>
             <optional>true</optional>
         </dependency>
         <dependency>
